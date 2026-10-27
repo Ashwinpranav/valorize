@@ -37,3 +37,4 @@ class AIHealthResponse(BaseModel):
     pricing_model: str
     matching_engine_version: str
     demo_mode: bool
+

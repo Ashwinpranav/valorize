@@ -235,3 +235,4 @@ export const VoiceAssistant: React.FC<VoiceAssistantProps> = ({ onParsedData }) 
     </div>
   );
 };
+

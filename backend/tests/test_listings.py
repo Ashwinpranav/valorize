@@ -66,3 +66,4 @@ def test_unauthorized_listing_modification(client):
     # Attempt to update listing #1 (owned by supplier)
     response = client.patch("/api/listings/1", json={"seller_price": 10.0}, headers=headers)
     assert response.status_code == 403
+

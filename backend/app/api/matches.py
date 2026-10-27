@@ -278,3 +278,4 @@ def get_matches(
                         })
             matches_list.sort(key=lambda x: x["overall_score"], reverse=True)
             return [MatchResponse(**m) for m in matches_list[:20]]
+

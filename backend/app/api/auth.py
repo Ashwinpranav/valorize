@@ -170,3 +170,4 @@ def get_me(current_user: User = Depends(get_current_user), db: Session = Depends
         company=comp_resp,
         created_at=current_user.created_at
     )
+

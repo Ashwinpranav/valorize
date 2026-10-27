@@ -373,3 +373,4 @@ export const EnquiryDetailPage: React.FC = () => {
     </div>
   );
 };
+

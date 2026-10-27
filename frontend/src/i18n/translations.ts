@@ -196,3 +196,4 @@ export const translations = {
     noDataFound: "பொருத்தமான பதிவுகள் எதுவும் இல்லை.",
   }
 };
+

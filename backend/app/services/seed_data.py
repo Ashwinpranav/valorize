@@ -340,3 +340,4 @@ def seed_database(db: Session, reset: bool = False):
 
     db.commit()
     print("Database successfully seeded with demo companies, listings, and completed transaction!")
+

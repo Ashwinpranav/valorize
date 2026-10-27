@@ -50,3 +50,4 @@ def test_matching_missing_location_neutral():
     requirement = {"category_id": 1, "min_quantity": 500.0, "max_quantity": 1500.0, "accepted_condition": "Any"}
     match = matching_engine.calculate_match(listing, requirement)
     assert match["proximity_score"] == 50.0 # Neutral 50% for missing location
+

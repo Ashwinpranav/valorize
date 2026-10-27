@@ -124,3 +124,4 @@ def delete_requirement(
     db.delete(req)
     db.commit()
     return {"message": "Requirement deleted successfully"}
+

@@ -391,3 +391,4 @@ class AuditLog(Base):
     created_at = Column(DateTime(timezone=True), default=utc_now)
 
     actor = relationship("User", back_populates="audit_logs")
+

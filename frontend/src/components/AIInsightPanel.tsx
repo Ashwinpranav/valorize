@@ -107,3 +107,4 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({
     </div>
   );
 };
+

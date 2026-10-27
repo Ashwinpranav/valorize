@@ -113,3 +113,4 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onSave, isSav
     </div>
   );
 };
+

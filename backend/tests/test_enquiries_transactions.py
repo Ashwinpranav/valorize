@@ -78,3 +78,4 @@ def test_full_exchange_lifecycle(client):
     data = impact_res.json()
     assert data["total_completed_transactions"] >= 2
     assert data["total_material_exchanged_kg"] >= 1650.0
+

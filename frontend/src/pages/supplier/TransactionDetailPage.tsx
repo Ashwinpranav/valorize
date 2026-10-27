@@ -257,3 +257,4 @@ export const TransactionDetailPage: React.FC = () => {
     </div>
   );
 };
+

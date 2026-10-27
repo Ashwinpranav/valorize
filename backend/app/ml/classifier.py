@@ -158,3 +158,4 @@ class WasteImageClassifier:
         }
 
 classifier = WasteImageClassifier()
+

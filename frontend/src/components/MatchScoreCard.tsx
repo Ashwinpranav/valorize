@@ -88,3 +88,4 @@ export const MatchScoreCard: React.FC<MatchScoreCardProps> = ({ match, targetTyp
     </div>
   );
 };
+

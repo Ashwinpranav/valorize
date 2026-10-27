@@ -157,48 +157,70 @@ Every account comes pre-loaded with realistic regional industrial listings, requ
 
 ---
 
-## 7. Quickstart & Installation Guide
+## 7. Hosting & Deployment Guide
 
-### Prerequisites
-- **Python:** 3.12+ (or managed via `uv`)
-- **Node.js:** v18+ (tested on Node v20/v26 & npm 10/11)
+### Option 1: Unified 1-Click Local Hosting (Fastest)
 
-### Option 1: Local Development (Recommended)
+FastAPI automatically serves the production React frontend build from `frontend/dist/` alongside all API endpoints on a single port.
 
-#### Step 1: Backend Setup
+**On Windows:**
+Simply double-click `start.bat` in the project root, or execute:
 ```powershell
-# Navigate to the backend directory
+.\start.ps1
+```
+Or directly via the command line:
+```powershell
 cd backend
-
-# Create virtual environment (if not using uv)
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-# Install backend dependencies
-pip install -r requirements.txt
-
-# Start the FastAPI backend server
-python -m uvicorn main:app --reload --port 8000
+.\.venv\Scripts\python.exe -m uvicorn main:app --host 0.0.0.0 --port 8000
 ```
-> The backend automatically creates the SQLite database (`valorize.db`), applies schemas, trains the Random Forest pricing regressor, and seeds demo data on its first boot!  
-> Interactive OpenAPI documentation is available at: `http://127.0.0.1:8000/docs`
-
-#### Step 2: Frontend Setup
-```powershell
-# Open a new terminal and navigate to the frontend directory
-cd frontend
-
-# Install dependencies (already populated in workspace)
-npm install
-
-# Start the Vite development server
-npm run dev
-```
-> The frontend application is served at: `http://localhost:3000` (or `http://localhost:5173`)
+- **Web App (Frontend UI):** `http://localhost:8000`
+- **Swagger API Documentation:** `http://localhost:8000/docs`
+- **Health Check Endpoint:** `http://localhost:8000/api/health`
 
 ---
 
-### Option 2: Docker Compose (PostgreSQL Database)
+### Option 2: Cloud Deployment (Render.com / Railway / Fly.io / VPS)
+
+The project includes a production multi-stage `Dockerfile` and `render.yaml` blueprint.
+
+#### Deploying on Render (Free Tier):
+1. Push your repository to GitHub or GitLab.
+2. Log into [Render.com](https://render.com) and click **New > Blueprint**.
+3. Select your repository. Render automatically reads `render.yaml` and provisions the Dockerized web service.
+4. Your application will be live at `https://<your-service-name>.onrender.com`.
+
+#### Deploying on Any Docker / Cloud Host:
+```bash
+# Build the unified production container
+docker build -t valorize-app .
+
+# Run the container
+docker run -d -p 8000:8000 --name valorize valorize-app
+```
+
+---
+
+### Option 3: Separate Frontend & Backend Development Servers
+
+For active frontend code modifications with hot module replacement (HMR):
+
+#### Terminal 1 — Backend:
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+python -m uvicorn main:app --reload --port 8000
+```
+
+#### Terminal 2 — Frontend:
+```powershell
+cd frontend
+npm run dev
+```
+Open `http://localhost:3000` (Vite proxies `/api` calls directly to `http://localhost:8000`).
+
+---
+
+### Option 4: Docker Compose with PostgreSQL
 For running PostgreSQL in production or containerized development:
 ```bash
 docker-compose up -d
@@ -242,3 +264,4 @@ When presenting this project for a final-year viva or project evaluation:
 ## 10. License & Disclaimers
 
 Developed for educational and academic capstone demonstration purposes. Material price suggestions are indicative and intended to assist commercial discovery rather than serve as legally binding financial appraisals.
+

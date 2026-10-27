@@ -58,3 +58,4 @@ def test_get_current_user_me(client):
     response = client.get("/api/auth/me", headers={"Authorization": f"Bearer {token}"})
     assert response.status_code == 200
     assert response.json()["email"] == "supplier@valorize.demo"
+

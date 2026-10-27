@@ -56,3 +56,4 @@ def test_image_classifier_and_api(client, tmp_path):
     assert 0.0 <= data["confidence"] <= 1.0
     assert "rationale" in data
     assert data["inference_time_ms"] >= 0.0
+

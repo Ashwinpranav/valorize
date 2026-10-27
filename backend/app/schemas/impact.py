@@ -50,3 +50,4 @@ class SupportTicketResponse(BaseModel):
 
     class Config:
         from_attributes = True
+

@@ -341,3 +341,4 @@ def accept_offer(
         "message": "Offer accepted successfully and transaction agreement created",
         "transaction_id": tx.id
     }
+

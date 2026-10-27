@@ -84,3 +84,4 @@ export const CompanyProfilePage: React.FC = () => {
     </div>
   );
 };
+

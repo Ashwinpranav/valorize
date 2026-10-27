@@ -96,3 +96,4 @@ def get_ai_health():
         matching_engine_version="Deterministic-Weighted-v2.0 (Material 40%, Quantity 25%, Proximity 20%, Condition 15%)",
         demo_mode=settings.DEMO_MODE
     )
+

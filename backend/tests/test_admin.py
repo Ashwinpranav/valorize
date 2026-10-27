@@ -67,3 +67,4 @@ def test_admin_audit_logs(client: TestClient, admin_token: str):
     logs = res.json()
     assert isinstance(logs, list)
     assert len(logs) >= 1
+

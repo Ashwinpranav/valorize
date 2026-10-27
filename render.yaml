@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: valorize-exchange
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:///./valorize.db
+      - key: DEMO_MODE
+        value: "true"

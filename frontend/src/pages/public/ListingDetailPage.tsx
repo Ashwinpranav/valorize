@@ -369,3 +369,4 @@ export const ListingDetailPage: React.FC = () => {
 function round(val: number, decimals: number = 2) {
   return Number(Math.round(Number(val + 'e' + decimals)) + 'e-' + decimals);
 }
+

@@ -52,3 +52,4 @@ export const SavedListingsPage: React.FC = () => {
     </div>
   );
 };
+

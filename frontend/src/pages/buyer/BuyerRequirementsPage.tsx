@@ -281,3 +281,4 @@ export const BuyerRequirementsPage: React.FC = () => {
     </div>
   );
 };
+

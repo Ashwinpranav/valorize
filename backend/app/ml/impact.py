@@ -114,3 +114,4 @@ class ImpactCalculator:
         }
 
 impact_calculator = ImpactCalculator()
+

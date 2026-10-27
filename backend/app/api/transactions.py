@@ -151,3 +151,4 @@ def add_transaction_event(
     db.refresh(tx)
 
     return build_tx_response(tx)
+

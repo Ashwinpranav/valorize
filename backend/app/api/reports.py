@@ -80,3 +80,4 @@ def get_company_impact(
         "currency": "INR",
         "circular_status": "Certified Circular Partner" if len(completed_txs) > 0 else "Active Exchanger"
     }
+
