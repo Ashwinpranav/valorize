@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="albg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0F172A"/><stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="alGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F1F5F9"/><stop offset="40%" stop-color="#CBD5E1"/><stop offset="70%" stop-color="#94A3B8"/><stop offset="100%" stop-color="#64748B"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#albg)"/>
+  <g transform="translate(80, 50)">
+    <polygon points="40,90 280,90 220,170 0,170" fill="url(#alGrad)" stroke="#FFFFFF" stroke-width="2"/>
+    <polygon points="280,90 340,140 220,170" fill="#475569" stroke="#CBD5E1" stroke-width="1.5"/>
+    <polygon points="120,150 360,150 300,230 80,230" fill="url(#alGrad)" stroke="#FFFFFF" stroke-width="2"/>
+    <polygon points="360,150 420,200 300,230" fill="#334155" stroke="#CBD5E1" stroke-width="1.5"/>
+    <rect x="70" y="110" width="140" height="20" rx="4" fill="#1E293B" opacity="0.8"/>
+    <rect x="150" y="170" width="140" height="20" rx="4" fill="#0F172A" opacity="0.8"/>
+  </g>
+  <rect x="30" y="335" width="540" height="42" rx="10" fill="rgba(15,23,42,0.85)" stroke="#94A3B8" stroke-width="1.5"/>
+  <circle cx="55" cy="356" r="6" fill="#38BDF8"/>
+  <text x="75" y="361" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="800" fill="#E2E8F0" letter-spacing="1.5">ALUMINIUM SCRAP • 6063 EXTRUSIONS &amp; OFFCUTS</text>
+  <text x="545" y="361" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="end">AEROSPACE &amp; ARCHITECTURAL</text>
+</svg>

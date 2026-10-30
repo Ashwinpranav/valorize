@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Boxes, Sparkles, Trash2, Edit3, ExternalLink } from 'lucide-react';
 import { StatusBadge } from '../../components/StatusBadge';
+import { MaterialImage } from '../../components/MaterialImage';
 import { listingsApi } from '../../services/api';
 import { WasteListing } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
@@ -75,12 +76,25 @@ export const MyListingsPage: React.FC = () => {
                 {listings.map((l) => (
                   <tr key={l.id} className="hover:bg-[#F8FAFC] transition-colors">
                     <td className="py-3 px-4">
-                      <div className="font-bold text-[#18324B]">
-                        <Link to={`/marketplace/${l.id}`} className="hover:text-[#20A486]">
-                          {l.title}
-                        </Link>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-10 rounded-md overflow-hidden flex-shrink-0 bg-slate-900 border border-slate-200">
+                          <MaterialImage
+                            images={l.images}
+                            categoryName={l.category_name}
+                            title={l.title}
+                            aspectRatio="aspect-[6/5]"
+                            showPlaceholderBadge={false}
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-bold text-[#18324B] truncate max-w-xs">
+                            <Link to={`/marketplace/${l.id}`} className="hover:text-[#20A486]">
+                              {l.title}
+                            </Link>
+                          </div>
+                          <span className="text-[10px] text-[#94A3B8] block truncate">Depot: {l.location}</span>
+                        </div>
                       </div>
-                      <span className="text-[10px] text-[#94A3B8]">Depot: {l.location}</span>
                     </td>
                     <td className="py-3 px-4 text-[#475569]">{l.category_name}</td>
                     <td className="py-3 px-4 font-bold text-[#18324B]">

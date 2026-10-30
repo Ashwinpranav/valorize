@@ -45,8 +45,11 @@ class ListingUpdate(BaseModel):
     unit: Optional[str] = None
     condition: Optional[str] = None
     location: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     seller_price: Optional[float] = None
     status: Optional[str] = None
+    image_urls: Optional[List[str]] = None
 
 class ListingResponse(BaseModel):
     id: int

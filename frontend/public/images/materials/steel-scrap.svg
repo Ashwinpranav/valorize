@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="feBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0C1929"/><stop offset="100%" stop-color="#040810"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#475569"/><stop offset="50%" stop-color="#334155"/><stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#feBg)"/>
+  <g transform="translate(100, 40)">
+    <path d="M40 70 H320 V110 H220 V190 H320 V230 H40 V190 H140 V110 H40 Z" fill="url(#steel)" stroke="#38BDF8" stroke-width="3"/>
+    <polygon points="320,70 380,110 380,270 320,230" fill="#0F172A" stroke="#0284C7" stroke-width="2"/>
+    <polygon points="220,110 280,150 280,230 220,190" fill="#1E293B" opacity="0.9"/>
+    <line x1="20" y1="250" x2="390" y2="250" stroke="#0284C7" stroke-width="12" stroke-dasharray="14 6" stroke-linecap="round"/>
+    <line x1="50" y1="270" x2="360" y2="270" stroke="#0369A1" stroke-width="10" stroke-dasharray="14 6" stroke-linecap="round"/>
+  </g>
+  <rect x="30" y="335" width="540" height="42" rx="10" fill="rgba(15,23,42,0.85)" stroke="#0284C7" stroke-width="1.5"/>
+  <circle cx="55" cy="356" r="6" fill="#0284C7"/>
+  <text x="75" y="361" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="800" fill="#BAE6FD" letter-spacing="1.5">STEEL SCRAP • HMS 1 &amp; STRUCTURAL BEAMS</text>
+  <text x="545" y="361" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="700" fill="#38BDF8" text-anchor="end">HEAVY MELTING</text>
+</svg>

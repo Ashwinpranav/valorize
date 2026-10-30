@@ -3,6 +3,7 @@ import { adminApi } from '../../services/api';
 import { Package, Search, Filter, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { StatusBadge } from '../../components/StatusBadge';
+import { MaterialImage } from '../../components/MaterialImage';
 
 export default function AdminListingsPage() {
   const [listings, setListings] = useState<any[]>([]);
@@ -102,8 +103,21 @@ export default function AdminListingsPage() {
                 filtered.map((l) => (
                   <tr key={l.id} className="hover:bg-slate-50/50 transition">
                     <td className="py-3.5 px-4 font-medium text-[#1E293B]">
-                      {l.title}
-                      <div className="text-xs text-slate-400">{l.location}</div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-10 rounded-md overflow-hidden flex-shrink-0 bg-slate-900 border border-slate-200">
+                          <MaterialImage
+                            images={l.images}
+                            categoryName={l.category_name}
+                            title={l.title}
+                            aspectRatio="aspect-[6/5]"
+                            showPlaceholderBadge={false}
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="truncate max-w-xs font-semibold">{l.title}</div>
+                          <div className="text-xs text-slate-400 truncate">{l.location}</div>
+                        </div>
+                      </div>
                     </td>
                     <td className="py-3.5 px-4 text-slate-700">{l.company_name}</td>
                     <td className="py-3.5 px-4">

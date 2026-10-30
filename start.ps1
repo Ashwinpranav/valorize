@@ -15,3 +15,4 @@ if (Test-Path $venvPython) {
     Write-Host "[INFO] Virtual environment not found, attempting python on PATH..." -ForegroundColor Yellow
     python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 }
+

@@ -199,6 +199,10 @@ export const reportsApi = {
     const res = await api.get('/reports/company');
     return res.data;
   },
+  getFinancialAnalysis: async () => {
+    const res = await api.get('/reports/financial-analysis');
+    return res.data;
+  },
 };
 
 // Notifications API

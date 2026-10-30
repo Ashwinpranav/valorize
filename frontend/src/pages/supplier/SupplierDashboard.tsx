@@ -15,6 +15,7 @@ import {
 import { StatCard } from '../../components/StatCard';
 import { StatusBadge } from '../../components/StatusBadge';
 import { MatchScoreCard } from '../../components/MatchScoreCard';
+import { MaterialImage } from '../../components/MaterialImage';
 import { listingsApi, requirementsApi, reportsApi } from '../../services/api';
 import { WasteListing, BuyerMatch } from '../../types';
 import { useAuth } from '../../context/AuthContext';
@@ -140,21 +141,32 @@ export const SupplierDashboard: React.FC = () => {
             <div className="divide-y divide-[#F1F5F9]">
               {listings.slice(0, 5).map((l) => (
                 <div key={l.id} className="py-3 flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <Link
-                      to={`/marketplace/${l.id}`}
-                      className="text-xs font-bold text-[#18324B] hover:text-[#20A486] truncate block"
-                    >
-                      {l.title}
-                    </Link>
-                    <div className="flex items-center gap-3 text-[11px] text-[#64748B] mt-0.5">
-                      <span>
-                        {l.quantity} {l.unit}
-                      </span>
-                      <span>•</span>
-                      <span>{l.condition}</span>
-                      <span>•</span>
-                      <span>{l.seller_price ? `₹${l.seller_price}/${l.unit}` : 'Quote on request'}</span>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-12 h-10 rounded-md overflow-hidden flex-shrink-0 bg-slate-900 border border-slate-200">
+                      <MaterialImage
+                        images={l.images}
+                        categoryName={l.category_name}
+                        title={l.title}
+                        aspectRatio="aspect-[6/5]"
+                        showPlaceholderBadge={false}
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <Link
+                        to={`/marketplace/${l.id}`}
+                        className="text-xs font-bold text-[#18324B] hover:text-[#20A486] truncate block max-w-sm"
+                      >
+                        {l.title}
+                      </Link>
+                      <div className="flex items-center gap-3 text-[11px] text-[#64748B] mt-0.5">
+                        <span>
+                          {l.quantity} {l.unit}
+                        </span>
+                        <span>•</span>
+                        <span>{l.condition}</span>
+                        <span>•</span>
+                        <span>{l.seller_price ? `₹${l.seller_price}/${l.unit}` : 'Quote on request'}</span>
+                      </div>
                     </div>
                   </div>
 

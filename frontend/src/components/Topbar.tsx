@@ -1,7 +1,8 @@
 import React from 'react';
-import { Menu, Bell, Search, Globe, ChevronDown, ExternalLink } from 'lucide-react';
+import { Menu, Bell, Search, Globe, ChevronDown, ExternalLink, DollarSign } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useCurrency, CurrencyCode, CURRENCY_CONFIG } from '../context/CurrencyContext';
 import { Link } from 'react-router-dom';
 
 interface TopbarProps {
@@ -17,6 +18,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 }) => {
   const { user } = useAuth();
   const { language, setLanguage, t } = useLanguage();
+  const { currency, setCurrency } = useCurrency();
 
   return (
     <header className="h-16 bg-white border-b border-[#E2E8F0] sticky top-0 z-30 px-4 md:px-6 flex items-center justify-between">
@@ -51,7 +53,23 @@ export const Topbar: React.FC<TopbarProps> = ({
       </div>
 
       {/* Right: Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
+        {/* Currency Switcher */}
+        <div className="relative">
+          <select
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+            className="text-xs font-semibold px-2 py-1.5 rounded-lg border border-[#E2E8F0] bg-white text-[#18324B] hover:border-[#20A486] focus:outline-none focus:ring-1 focus:ring-[#20A486] cursor-pointer"
+            title="Select Display Currency"
+          >
+            {Object.values(CURRENCY_CONFIG).map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.symbol} {c.code}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Public marketplace link */}
         <Link
           to="/marketplace"
@@ -67,7 +85,7 @@ export const Topbar: React.FC<TopbarProps> = ({
           <button
             type="button"
             onClick={() => setLanguage('en')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all ${
+            className={`px-2 py-1 rounded text-xs font-semibold transition-all ${
               language === 'en'
                 ? 'bg-white text-[#18324B] shadow-sm'
                 : 'text-[#64748B] hover:text-[#18324B]'

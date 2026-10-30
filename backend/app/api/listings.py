@@ -9,14 +9,15 @@ from app.core.database import get_db
 from app.core.config import settings
 from app.core.dependencies import get_current_user, get_optional_current_user, get_current_active_company
 from app.models.all_models import (
-    WasteListing, ListingImage, MaterialCategory, User, Company, SavedListing, AuditLog
+    WasteListing, ListingImage, MaterialCategory, User, Company, SavedListing, AuditLog, BuyerRequirement
 )
 from app.schemas.listing import ListingCreate, ListingUpdate, ListingResponse, CategoryBase, ImageResponse
 
 router = APIRouter(tags=["Listings"])
 
-# Region coordinates map for geocoding Indian industrial hubs
+# Global Coordinates Map for Geocoding Worldwide Industrial Corridors
 REGIONAL_COORDINATES = {
+    # India
     "coimbatore": (11.0168, 76.9558),
     "chennai": (13.0827, 80.2707),
     "bangalore": (12.9716, 77.5946),
@@ -25,16 +26,49 @@ REGIONAL_COORDINATES = {
     "salem": (11.6643, 78.1460),
     "madurai": (9.9252, 78.1198),
     "hosur": (12.7409, 77.8253),
+    "mumbai": (19.0760, 72.8777),
+    "delhi": (28.7041, 77.1025),
+    "kolkata": (22.5726, 88.3639),
+    "hyderabad": (17.3850, 78.4867),
+    "pune": (18.5204, 73.8567),
+    "ahmedabad": (23.0225, 72.5714),
+    # United States
+    "detroit": (42.3314, -83.0458),
+    "new york": (40.7128, -74.0060),
+    "chicago": (41.8781, -87.6298),
+    "cleveland": (41.4993, -81.6944),
+    "houston": (29.7604, -95.3698),
+    "los angeles": (34.0522, -118.2437),
+    "pittsburgh": (40.4406, -79.9959),
+    # Europe
+    "duisburg": (51.4344, 6.7623),
+    "essen": (51.4556, 7.0116),
+    "birmingham": (52.4862, -1.8904),
+    "london": (51.5074, -0.1278),
+    "sheffield": (53.3811, -1.4701),
+    "rotterdam": (51.9244, 4.4777),
+    "milan": (45.4642, 9.1900),
+    # Middle East
+    "dubai": (25.2048, 55.2708),
+    "sharjah": (25.3463, 55.4209),
+    "abu dhabi": (24.4539, 54.3773),
+    # Asia-Pacific
+    "tokyo": (35.6762, 139.6503),
+    "osaka": (34.6937, 135.5023),
+    "sydney": (-33.8688, 151.2093),
+    "melbourne": (-37.8136, 144.9631),
+    "singapore": (1.3521, 103.8198),
+    "toronto": (43.6532, -79.3832),
 }
 
 def resolve_coords(location_str: str, lat: Optional[float], lon: Optional[float]):
     if lat is not None and lon is not None:
         return lat, lon
-    loc_clean = location_str.lower().strip()
+    loc_clean = (location_str or "").lower().strip()
     for city, coords in REGIONAL_COORDINATES.items():
         if city in loc_clean:
             return coords
-    return 11.0168, 76.9558 # Default to Coimbatore industrial hub
+    return 13.0827, 80.2707 # Default to standard industrial hub
 
 def build_listing_response(l: WasteListing) -> ListingResponse:
     images = [
@@ -181,21 +215,24 @@ def create_listing(
 @router.get("/listings/map")
 def get_map_listings(db: Session = Depends(get_db)):
     """
-    Returns available listings geocoded for the interactive Waste Exchange Map.
-    Approximate coordinates protect precise facility coordinates.
+    Returns worldwide listings, buyer requirements, and recycling/repair facilities
+    geocoded for the interactive Global Waste Exchange Map.
     """
+    results = []
+
+    # 1. Supplier Listings (Green markers)
     listings = (
         db.query(WasteListing)
         .filter(WasteListing.status == "Available")
         .all()
     )
-    results = []
     for l in listings:
         if l.latitude and l.longitude:
             results.append({
                 "id": l.id,
                 "title": l.title,
-                "category_name": l.category.name if l.category else "Uncategorized",
+                "category_name": l.category.name if l.category else "Industrial Material",
+                "role": "supplier",
                 "quantity": l.quantity,
                 "unit": l.unit,
                 "condition": l.condition,
@@ -204,8 +241,63 @@ def get_map_listings(db: Session = Depends(get_db)):
                 "longitude": l.longitude,
                 "seller_price": l.seller_price,
                 "company_name": l.company.name if l.company else "Supplier",
-                "image_url": l.images[0].image_url if l.images else None
+                "imageUrl": l.images[0].image_url if l.images else None
             })
+
+    # 2. Buyer Requirements (Blue markers)
+    requirements = (
+        db.query(BuyerRequirement)
+        .filter(BuyerRequirement.is_active == True)
+        .all()
+    )
+    for r in requirements:
+        lat = r.latitude or (r.company.latitude if r.company else None)
+        lon = r.longitude or (r.company.longitude if r.company else None)
+        if lat and lon:
+            results.append({
+                "id": f"req-{r.id}",
+                "title": f"Procurement Request: {r.title}",
+                "category_name": r.category.name if r.category else "Procurement",
+                "role": "buyer",
+                "quantity": r.max_quantity,
+                "unit": r.unit,
+                "condition": r.accepted_condition,
+                "location": r.preferred_location or (f"{r.company.city}, {r.company.state}" if r.company else "Destination"),
+                "latitude": lat,
+                "longitude": lon,
+                "seller_price": r.max_budget_per_unit,
+                "company_name": r.company.name if r.company else "Industrial Buyer",
+                "imageUrl": None
+            })
+
+    # 3. Recyclers & Repair Partners (Orange & Purple markers)
+    companies = db.query(Company).all()
+    for c in companies:
+        if c.latitude and c.longitude:
+            ind_lower = (c.industry or "").lower()
+            name_lower = c.name.lower()
+            
+            is_recycler = "recycl" in ind_lower or "smelt" in ind_lower or "recycl" in name_lower
+            is_partner = "repair" in ind_lower or "refurbish" in ind_lower or "rewind" in ind_lower or "engineering" in ind_lower
+
+            if is_recycler or is_partner:
+                role = "recycler" if is_recycler else "partner"
+                results.append({
+                    "id": f"comp-{c.id}",
+                    "title": c.name,
+                    "category_name": c.industry or ("Secondary Metal Smelting" if role == "recycler" else "Industrial Equipment Refurbishment"),
+                    "role": role,
+                    "quantity": 0,
+                    "unit": "Facilities",
+                    "condition": "Licensed Circular Partner",
+                    "location": f"{c.city}, {c.state}",
+                    "latitude": c.latitude,
+                    "longitude": c.longitude,
+                    "seller_price": None,
+                    "company_name": c.name,
+                    "imageUrl": None
+                })
+
     return results
 
 @router.get("/listings/{listing_id}", response_model=ListingResponse)
@@ -232,9 +324,29 @@ def update_listing(
         raise HTTPException(status_code=403, detail="Not authorized to edit this listing")
 
     update_data = listing_in.model_dump(exclude_unset=True)
+
+    # Handle image_urls update if provided
+    if "image_urls" in update_data:
+        new_urls = update_data.pop("image_urls")
+        if new_urls is not None:
+            db.query(ListingImage).filter(ListingImage.listing_id == l.id).delete()
+            for idx, url in enumerate(new_urls):
+                img = ListingImage(
+                    listing_id=l.id,
+                    image_url=url,
+                    is_primary=(idx == 0)
+                )
+                db.add(img)
+
     for field, value in update_data.items():
         if value is not None:
             setattr(l, field, value)
+
+    # Auto-resolve coordinates if location changed and coordinates not provided
+    if "location" in update_data and ("latitude" not in update_data or l.latitude is None):
+        lat, lon = resolve_coords(l.location, l.latitude, l.longitude)
+        l.latitude = lat
+        l.longitude = lon
 
     # Audit log
     audit = AuditLog(

@@ -45,6 +45,11 @@ app.add_middleware(
 os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
 
+# Mount frontend public images directory for category visuals
+frontend_images = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "images"))
+if os.path.exists(frontend_images):
+    app.mount("/images", StaticFiles(directory=frontend_images), name="frontend_images")
+
 # Include Routers under /api
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(listings.router, prefix=settings.API_V1_STR)

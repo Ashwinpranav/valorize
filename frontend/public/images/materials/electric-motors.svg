@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="motBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#134E4A"/><stop offset="100%" stop-color="#042F2E"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#motBg)"/>
+  <g transform="translate(110, 45)">
+    <rect x="60" y="70" width="240" height="160" rx="20" fill="#0F766E" stroke="#5EEAD4" stroke-width="4"/>
+    <line x1="100" y1="70" x2="100" y2="230" stroke="#115E59" stroke-width="6"/>
+    <line x1="140" y1="70" x2="140" y2="230" stroke="#115E59" stroke-width="6"/>
+    <line x1="180" y1="70" x2="180" y2="230" stroke="#115E59" stroke-width="6"/>
+    <line x1="220" y1="70" x2="220" y2="230" stroke="#115E59" stroke-width="6"/>
+    <line x1="260" y1="70" x2="260" y2="230" stroke="#115E59" stroke-width="6"/>
+    <rect x="300" y="125" width="70" height="50" rx="6" fill="#CBD5E1" stroke="#94A3B8" stroke-width="3"/>
+    <rect x="130" y="40" width="90" height="35" rx="6" fill="#14B8A6" stroke="#CCFBF1" stroke-width="3"/>
+    <rect x="60" y="230" width="50" height="20" rx="4" fill="#042F2E"/>
+    <rect x="250" y="230" width="50" height="20" rx="4" fill="#042F2E"/>
+  </g>
+  <rect x="30" y="335" width="540" height="42" rx="10" fill="rgba(15,23,42,0.85)" stroke="#2DD4BF" stroke-width="1.5"/>
+  <circle cx="55" cy="356" r="6" fill="#2DD4BF"/>
+  <text x="75" y="361" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="800" fill="#CCFBF1" letter-spacing="1.5">ELECTRIC MOTORS • 3-PHASE INDUCTION &amp; PUMPS</text>
+  <text x="545" y="361" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="700" fill="#2DD4BF" text-anchor="end">REUSABLE / REWIND</text>
+</svg>

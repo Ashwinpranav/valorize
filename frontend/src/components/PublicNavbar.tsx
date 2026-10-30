@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowRight, ShieldCheck, Sparkles, MapPin } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useCurrency, CurrencyCode, CURRENCY_CONFIG } from '../context/CurrencyContext';
 
 export const PublicNavbar: React.FC = () => {
   const { user } = useAuth();
   const { language, setLanguage, t } = useLanguage();
+  const { currency, setCurrency } = useCurrency();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getDashboardLink = () => {
@@ -44,6 +46,13 @@ export const PublicNavbar: React.FC = () => {
           <Link to="/marketplace" className="hover:text-[#20A486] transition-colors">
             {t('marketplace')}
           </Link>
+          <Link to="/exchange-map" className="hover:text-[#20A486] transition-colors flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Global Map
+          </Link>
+          <Link to="/financial-analysis" className="hover:text-[#20A486] transition-colors">
+            Financial Analytics
+          </Link>
           <Link to="/how-it-works" className="hover:text-[#20A486] transition-colors">
             {t('howItWorks')}
           </Link>
@@ -54,6 +63,20 @@ export const PublicNavbar: React.FC = () => {
 
         {/* Right side CTAs */}
         <div className="hidden md:flex items-center gap-3">
+          {/* Currency Switch */}
+          <select
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+            className="text-xs font-semibold px-2 py-1.5 rounded-lg border border-[#E2E8F0] bg-white text-[#18324B] hover:border-[#20A486] focus:outline-none cursor-pointer"
+            title="Select Display Currency"
+          >
+            {Object.values(CURRENCY_CONFIG).map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.symbol} {c.code}
+              </option>
+            ))}
+          </select>
+
           {/* Language Switch */}
           <div className="flex items-center bg-[#F1F5F9] p-0.5 rounded-lg border border-[#E2E8F0]">
             <button

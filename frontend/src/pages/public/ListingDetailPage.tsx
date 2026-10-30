@@ -19,10 +19,12 @@ import { PublicNavbar } from '../../components/PublicNavbar';
 import { PublicFooter } from '../../components/PublicFooter';
 import { StatusBadge } from '../../components/StatusBadge';
 import { PriceEstimateCard } from '../../components/PriceEstimateCard';
+import { MaterialImage } from '../../components/MaterialImage';
 import { listingsApi, enquiriesApi } from '../../services/api';
 import { WasteListing } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useCurrency } from '../../context/CurrencyContext';
 
 export const ListingDetailPage: React.FC = () => {
   const { listingId } = useParams<{ listingId: string }>();
@@ -120,10 +122,7 @@ export const ListingDetailPage: React.FC = () => {
     );
   }
 
-  const primaryImage =
-    listing.images && listing.images.length > 0
-      ? listing.images[0].image_url
-      : 'https://images.unsplash.com/photo-1590496793929-36417d3117de?auto=format&fit=crop&w=800&q=80';
+  const { formatPrice } = useCurrency();
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] flex flex-col">
@@ -133,7 +132,7 @@ export const ListingDetailPage: React.FC = () => {
       <div className="bg-white border-b border-[#E2E8F0] py-3.5 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs text-[#64748B]">
           <div className="flex items-center gap-2">
-            <Link to="/marketplace" className="hover:text-[#20A486] flex items-center gap-1">
+            <Link to="/marketplace" className="hover:text-[#20A486] flex items-center gap-1 font-medium">
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to Marketplace</span>
             </Link>
@@ -152,13 +151,15 @@ export const ListingDetailPage: React.FC = () => {
           <div className="lg:col-span-8 space-y-6">
             {/* Visual Box */}
             <div className="bg-white rounded-card overflow-hidden border border-[#E2E8F0] shadow-card">
-              <div className="aspect-[16/10] bg-[#18324B] relative overflow-hidden">
-                <img
-                  src={primaryImage}
+              <div className="aspect-[16/10] bg-[#0F172A] relative overflow-hidden">
+                <MaterialImage
+                  images={listing.images}
+                  categoryName={listing.category_name}
+                  title={listing.title}
                   alt={listing.title}
-                  className="w-full h-full object-cover"
+                  showControls={true}
                 />
-                <div className="absolute top-4 left-4 bg-[#18324B]/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-white text-xs font-semibold flex items-center gap-1.5">
+                <div className="absolute top-4 left-4 bg-[#18324B]/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-white text-xs font-semibold flex items-center gap-1.5 z-10">
                   <ShieldCheck className="w-4 h-4 text-[#20A486]" />
                   <span>Physical Assay Verified</span>
                 </div>
@@ -234,7 +235,7 @@ export const ListingDetailPage: React.FC = () => {
                 <span className="text-xs text-[#64748B] block">Seller Asking Rate</span>
                 <div className="flex items-baseline gap-2 mt-1">
                   <span className="text-3xl font-black text-[#18324B]">
-                    {listing.seller_price ? `₹${listing.seller_price.toLocaleString()}` : 'Quote on Request'}
+                    {listing.seller_price ? formatPrice(listing.seller_price) : 'Quote on Request'}
                   </span>
                   {listing.seller_price && (
                     <span className="text-sm font-semibold text-[#64748B]">/ {listing.unit}</span>
@@ -242,7 +243,7 @@ export const ListingDetailPage: React.FC = () => {
                 </div>
                 {listing.seller_price && (
                   <span className="text-xs text-[#15803D] font-semibold block mt-1">
-                    Est. Total Asking Value: ₹{(listing.seller_price * listing.quantity).toLocaleString()}
+                    Est. Total Asking Value: {formatPrice(listing.seller_price * listing.quantity)}
                   </span>
                 )}
               </div>
@@ -262,6 +263,31 @@ export const ListingDetailPage: React.FC = () => {
                   <ShieldCheck className="w-4 h-4" />
                   <span>Verified Corporate KYC</span>
                 </div>
+              </div>
+
+              {/* Location & Map Preview (Requirement 2D) */}
+              <div className="bg-slate-50 rounded-xl p-4 border border-[#E2E8F0] space-y-2.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-[#18324B] flex items-center gap-1.5">
+                    <MapPin className="w-4 h-4 text-[#20A486]" />
+                    Facility Location
+                  </span>
+                  {listing.latitude && listing.longitude && (
+                    <span className="font-mono text-[10px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">
+                      {listing.latitude.toFixed(4)}, {listing.longitude.toFixed(4)}
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-slate-600 font-medium">
+                  {listing.location || 'Industrial Estate, Region Coordinates'}
+                </p>
+                <Link
+                  to={`/exchange-map?lat=${listing.latitude || 11.0}&lng=${listing.longitude || 77.0}&id=${listing.id}`}
+                  className="w-full py-2 bg-white hover:bg-slate-100 text-[#18324B] border border-[#CBD5E1] rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-[#20A486]" />
+                  <span>Open in Full Global Map</span>
+                </Link>
               </div>
 
               {/* Action Buttons */}

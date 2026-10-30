@@ -16,6 +16,8 @@ import { ResetPasswordPage } from './pages/public/ResetPasswordPage';
 import { PrivacyPage } from './pages/public/PrivacyPage';
 import { TermsPage } from './pages/public/TermsPage';
 import { NotFoundPage } from './pages/public/NotFoundPage';
+import { ExchangeMapPage } from './pages/public/ExchangeMapPage';
+import { FinancialAnalysisPage } from './pages/public/FinancialAnalysisPage';
 
 // Supplier Pages
 import { SupplierDashboard } from './pages/supplier/SupplierDashboard';
@@ -23,7 +25,6 @@ import { MyListingsPage } from './pages/supplier/MyListingsPage';
 import { AddListingPage } from './pages/supplier/AddListingPage';
 import { EditListingPage } from './pages/supplier/EditListingPage';
 import { SupplierMatchesPage } from './pages/supplier/SupplierMatchesPage';
-import { ExchangeMapPage } from './pages/supplier/ExchangeMapPage';
 import { EnquiriesPage } from './pages/supplier/EnquiriesPage';
 import { EnquiryDetailPage } from './pages/supplier/EnquiryDetailPage';
 import { TransactionsPage } from './pages/supplier/TransactionsPage';
@@ -111,6 +112,8 @@ export default function App() {
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
+      <Route path="/exchange-map" element={<ExchangeMapPage />} />
+      <Route path="/financial-analysis" element={<FinancialAnalysisPage />} />
 
       {/* Authenticated Application Routes (Protected with AppLayout) */}
       <Route
@@ -130,6 +133,7 @@ export default function App() {
 
         {/* Shared Workflows across roles */}
         <Route path="exchange-map" element={<ExchangeMapPage />} />
+        <Route path="financial-analysis" element={<FinancialAnalysisPage />} />
         <Route path="enquiries" element={<EnquiriesPage />} />
         <Route path="enquiries/:enquiryId" element={<EnquiryDetailPage />} />
         <Route path="transactions" element={<TransactionsPage />} />
